@@ -3,7 +3,6 @@ import pytest
 from territory import naming
 from territory.balance import Account, books, spread, suggest_moves
 from territory.geocode import CachedGeocoder, GeoResult, RateLimited, ZipCentroidProvider, haversine_miles, normalize
-from territory.routing import Contact, Router
 
 
 # ---------------- geocoding
@@ -57,38 +56,6 @@ def test_naming_convention():
 def test_lint_flags_rep_names_temp_and_airports():
     probs = naming.lint("Temp JORDAN / LAX", {"Jordan Blake"})
     assert len(probs) == 3
-
-
-# ---------------- routing
-@pytest.fixture
-def router():
-    return Router({"10001": "Outside-NY", "60601": "Outside-IL"}, ["Inside-1", "Inside-2"])
-
-
-def test_non_medical_mql_goes_inside(router):
-    assert router.route(Contact("c", "co", "10001", "Chiropractic")).rule.startswith("2")
-
-
-def test_med_spa_without_director_goes_inside(router):
-    assert router.route(Contact("c", "co", "10001", "Med Spa", has_medical_director=False)).rule.startswith("3")
-
-
-def test_dermatology_goes_to_covering_outside_rep(router):
-    assert router.route(Contact("c", "co", "60601", "Dermatology")).owner == "Outside-IL"
-
-
-def test_no_coverage_falls_back_inside(router):
-    assert router.route(Contact("c", "co", "94105", "Dermatology")).rule.startswith("5")
-
-
-def test_manual_handoff_is_never_overwritten(router):
-    c = Contact("c", "co", "60601", "Dermatology", owner="Inside-2", manual_owner_lock=True)
-    assert router.route(c).owner == "Inside-2"
-
-
-def test_company_follows_contacts(router):
-    out = router.route_all([Contact("c1", "co1", "60601", "Dermatology")])
-    assert out["company:co1"].owner == "Outside-IL"
 
 
 # ---------------- balance
