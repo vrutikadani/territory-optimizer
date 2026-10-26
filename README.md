@@ -1,6 +1,6 @@
 # Territory Optimizer
 
-[![CI](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+[![CI](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml)
 
 A toolkit for designing sales territories and routing leads: geocoding that survives failures, a naming convention that survives staffing changes, a balance check that suggests fair state moves, and lead-routing rules written as readable code.
 
@@ -79,5 +79,3 @@ Live geocoding (optional): set `GOOGLE_MAPS_KEY` and use `GoogleProvider` with `
 - **Never overwrite good data with a failure.**
 - **Say how precise a point is.** A ZIP centroid is fine for territory design, not for drive-time routing.
 
----
-Built by [Vrutik Adani](https://www.linkedin.com/in/vrutikadani) · Technical Product Manager, GTM Systems & AI Engineering
