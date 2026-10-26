@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml)
 
-A toolkit for designing sales territories and routing leads: geocoding that survives failures, a naming convention that survives staffing changes, a balance check that suggests fair state moves, and lead-routing rules written as readable code.
+A toolkit for designing sales territories: geocoding that survives failures, a naming convention that survives staffing changes, and a balance check that suggests fair state moves. The routing rules that use these territories live in [hubspot-revops-system](https://github.com/vrutikadani/hubspot-revops-system).
 
 > **About this repo.** I redesigned US sales territories and lead routing for a medical device company, using territory-planning software, the Google Maps API and CRM workflows. The production work covered **24 field reps and 12 account managers** and **$7.6M+ in year-to-date territory revenue**. This repo rebuilds the core logic with **synthetic accounts and reps**. No customer, rep or territory data is included.
 
@@ -11,7 +11,6 @@ A toolkit for designing sales territories and routing leads: geocoding that surv
 - Territory labels had rep names baked in ("Temp JORDAN"), so every hire or exit broke reports and workflows.
 - Some reps carried far bigger books than others.
 - A geocoding job failed halfway through the account list. It had no cache and no checkpoint, so a restart meant paying for every address again, and partial results overwrote good data.
-- Leads were routed by rules that lived in people's heads, and manual handoffs were overwritten by automation.
 
 ## What's inside
 
@@ -32,9 +31,6 @@ flowchart TB
       B --> M[Suggest neighbor-state moves<br/>to cut revenue spread]
       M --> L[Name: ID + Name<br/>geography only]
     end
-    subgraph Route
-      L --> RT[Routing rules 1-6]
-    end
 ```
 
 | Module | What it does |
@@ -42,23 +38,13 @@ flowchart TB
 | `territory/geocode.py` | Cache, retry with backoff, checkpoints, atomic writes, ZIP fallback, never overwrite good data |
 | `territory/naming.py` | Builds `ID` ("MS, AL, Memphis, Atlanta") and `Name` ("Mississippi, Alabama, Memphis, Atlanta"); lints old labels for rep names, "temp" and airport codes |
 | `territory/balance.py` | Revenue and account counts per territory; greedy neighbor-state moves that shrink the max/min spread |
-| `territory/routing.py` | Six routing rules, including "a manual handoff is never overwritten" and "the company follows its contacts" |
-
-## Routing rules
-
-1. A lead a rep handed over by hand is never overwritten.
-2. Non-medical specialty MQLs go to inside sales.
-3. Med spas with no medical director go to inside sales.
-4. Medical specialties and all SQLs / opportunities go to the outside rep who covers that ZIP.
-5. No outside coverage in that area: inside sales.
-6. The company owner follows its contacts.
 
 ## Run it
 
 ```bash
 pip install pytest
-python run_demo.py       # geocoding, naming, balance and routing on synthetic data
-python -m pytest -q      # 13 tests
+python run_demo.py       # geocoding, naming and balance on synthetic data
+python -m pytest -q      # 7 tests
 ```
 
 Sample balance output:

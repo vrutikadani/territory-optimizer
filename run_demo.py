@@ -1,4 +1,4 @@
-"""Territory toolkit demo on synthetic accounts. No keys needed.
+"""Territory toolkit demo on synthetic accounts: geocoding, naming, balance. No keys needed.
 
     python run_demo.py
 """
@@ -9,7 +9,6 @@ from pathlib import Path
 from territory import naming
 from territory.balance import Account, books, spread, suggest_moves
 from territory.geocode import CachedGeocoder, ZipCentroidProvider
-from territory.routing import Contact, Router
 
 random.seed(11)
 
@@ -48,14 +47,3 @@ for t, v in b.items():
     print(f"   {t:<14} {v['accounts']:>4} accts  ${v['revenue']/1e6:.1f}M")
 for m in suggest_moves(terr, accts):
     print(f"   move {m['state']} {m['from']} -> {m['to']}: spread {m['spread_before']}x -> {m['spread_after']}x")
-
-# 4) Routing ---------------------------------------------------------------------
-router = Router({"78701": "Outside-Austin", "33131": "Outside-Miami"}, ["Inside-1", "Inside-2"])
-print("\n4) Routing")
-for c in [Contact("c1", "co1", "78701", "Dermatology"),
-          Contact("c2", "co2", "78701", "Chiropractic"),
-          Contact("c3", "co3", "33131", "Med Spa", has_medical_director=False),
-          Contact("c4", "co4", "98101", "Plastic Surgery"),
-          Contact("c5", "co5", "33131", "Dermatology", owner="Inside-2", manual_owner_lock=True)]:
-    d = router.route(c)
-    print(f"   {c.contact_id} {c.specialty:<16} {c.zip} -> {d.owner:<15} (rule {d.rule})")
