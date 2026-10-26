@@ -1,5 +1,7 @@
 # Territory Optimizer
 
+[![CI](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml/badge.svg)](https://github.com/vrutikadani/territory-optimizer/actions/workflows/ci.yml) ![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)
+
 A toolkit for designing sales territories and routing leads: geocoding that survives failures, a naming convention that survives staffing changes, a balance check that suggests fair state moves, and lead-routing rules written as readable code.
 
 > **About this repo.** I redesigned US sales territories and lead routing for a medical device company, using territory-planning software, the Google Maps API and CRM workflows. The production work covered **24 field reps and 12 account managers** and **$7.6M+ in year-to-date territory revenue**. This repo rebuilds the core logic with **synthetic accounts and reps**. No customer, rep or territory data is included.
@@ -78,4 +80,4 @@ Live geocoding (optional): set `GOOGLE_MAPS_KEY` and use `GoogleProvider` with `
 - **Say how precise a point is.** A ZIP centroid is fine for territory design, not for drive-time routing.
 
 ---
-Built by [Vrutik Adani](https://www.linkedin.com/in/vrutikadani) · GTM Systems & AI Engineering
+Built by [Vrutik Adani](https://www.linkedin.com/in/vrutikadani) · Technical Product Manager, GTM Systems & AI Engineering

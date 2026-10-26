@@ -1,2 +1,2 @@
-requests>=2.31   # optional: live Google geocoding
-pytest>=8
+requests>=2.32.3   # optional: live Google geocoding
+pytest>=8.3
