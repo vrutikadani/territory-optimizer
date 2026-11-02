@@ -1,2 +1,2 @@
 requests>=2.34.2   # optional: live Google geocoding
-pytest>=9.1.1
+pytest>=9.2.0
